@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Project Carousel</title>
+  <style>
+  .project-carousel {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+
+  .carousel-container {
+    width: 800px;
+    height: 500px;
+    position: relative;
+    perspective: 1200px; /* Adjusted for a better 3D effect */
+    overflow: hidden; /* Ensures items outside the container are hidden */
+  }
+
+  .carousel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg); /* Initial rotation */
+    transform-origin: center center; /* Ensures rotation happens around the center */
+    transition: transform 1s ease; /* Smooth rotation */
+  }
+
+  .carousel-item {
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform-origin: center center; /* Ensures items rotate around their center */
+    transition: transform 0.5s ease;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .carousel-caption {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .carousel-caption h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  .carousel-caption p {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1em;
+    background: black;
+    color: white;
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+  }
+
+  .prev {
+    left: -50px;
+  }
+
+  .next {
+    right: -50px;
+  }
+
+  .prev:hover,
+  .next:hover {
+    background: #00ffff;
+    color: black;
+  }
+</style>
+</head>
+<body>
+
+<section class="project-carousel">
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="carousel-item">
+        <img src="project1.jpg" alt="Project 1" />
+        <div class="carousel-caption">
+          <h3>Project 1</h3>
+          <p>Description of Project 1</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="project2.jpg" alt="Project 2" />
+        <div class="carousel-caption">
+          <h3>Project 2</h3>
+          <p>Description of Project 2</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="project3.jpg" alt="Project 3" />
+        <div class="carousel-caption">
+          <h3>Project 3</h3>
+          <p>Description of Project 3</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="project4.jpg" alt="Project 4" />
+        <div class="carousel-caption">
+          <h3>Project 4</h3>
+          <p>Description of Project 4</p>
+        </div>
+      </div>
+    </div>
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+  </div>
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const carousel = document.querySelector(".carousel");
+    const items = document.querySelectorAll(".carousel-item");
+    const totalItems = items.length;
+    const angle = 360 / totalItems; // Divide 360 degrees equally among items
+    let currentAngle = 0;
+
+    // Position each item in a circular layout
+    items.forEach((item, index) => {
+      const itemAngle = index * angle; // Calculate the angle for each item
+      item.style.transform = `rotateY(${itemAngle}deg) translateZ(500px)`; // Adjusted translateZ for proper spacing
+    });
+
+    // Rotate the carousel
+    const rotateCarousel = (direction) => {
+      if (direction === "next") {
+        currentAngle -= angle; // Rotate clockwise
+      } else if (direction === "prev") {
+        currentAngle += angle; // Rotate counterclockwise
+      }
+      carousel.style.transform = `rotateY(${currentAngle}deg)`; // Apply the rotation
+    };
+
+    // Event listeners for buttons
+    document.querySelector(".next").addEventListener("click", () => rotateCarousel("next"));
+    document.querySelector(".prev").addEventListener("click", () => rotateCarousel("prev"));
+  });
+</script>
+
+</body>
+</html>
